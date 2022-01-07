@@ -1,4 +1,4 @@
-import database from "../database.cjs";
+import database from "../database.js";
 
 function Document({
   firstname,
