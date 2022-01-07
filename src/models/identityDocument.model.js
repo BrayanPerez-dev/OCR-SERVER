@@ -1,4 +1,4 @@
-import database from "../database.js";
+import db from '../database.js'
 
 function Document({
   firstname,
@@ -30,7 +30,7 @@ function Document({
 
 Document.prototype.createDocument = async function () {
   try {
-    const { rows } = await database.query(
+    const { rows } = await db.query(
       `INSERT INTO documents(first_name,last_name,date_birth,date_issue,date_expiry,num_document,addres,nationality,gender,marital_status,proffesion,photo)
             VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
       [
@@ -55,7 +55,7 @@ Document.prototype.createDocument = async function () {
 };
 Document.prototype.getDocuments = async function () {
   try {
-    const { rows } = await database.query(`SELECT * FROM documents`,null);
+    const { rows } = await db.query(`SELECT * FROM documents`,null);
     return rows;
   } catch (error) {
     throw error;

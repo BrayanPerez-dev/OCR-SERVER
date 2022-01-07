@@ -22,5 +22,7 @@ app.get('/',(req,res)=>{
         author: "technosal"
     })
 });
+
 app.use('/api/document',documentRoute)
+ 
 export default app;
