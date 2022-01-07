@@ -32,7 +32,7 @@ Document.prototype.createDocument = async function () {
   try {
     const { rows } = await db.query(
       `INSERT INTO documents(first_name,last_name,date_birth,date_issue,date_expiry,num_document,addres,nationality,gender,marital_status,proffesion,photo)
-            VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
       [
         this.last_name,
         this.last_name,
