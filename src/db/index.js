@@ -3,7 +3,8 @@ import { config } from "dotenv";
 
 config();
 
-const {Pool} = pg
+const {Pool} = pg;
+
 const pool = new Pool({
     host : process.env.DB_HOST,
     user : process.env.DB_USER,
@@ -27,6 +28,6 @@ export default  {
         } catch (error) {
             console.log('error in query',{text});
             throw error;
-        }
+        };
       }
 };
