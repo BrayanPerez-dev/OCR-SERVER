@@ -4,13 +4,13 @@ import { config } from "dotenv";
 config();
 
 const {Pool} = pg;
-
+const isProduction = process.env.NODE_ENV === "production";
+const connectionString = `postgres://ovkpriprszjcog:59d8ba88fdcede4a7af7e96e775ea280823a8cee6aaa1f8837e8bdc5e83ccbb6@ec2-35-169-119-56.compute-1.amazonaws.com:5432/d7geq6vsmfi46k`
 const pool = new Pool({
-    host : process.env.DB_HOST,
-    user : process.env.DB_USER,
-    password : process.env.DB_PASS,
-    database : process.env.DB_NAME,
-    port : 5432
+    connectionString: connectionString,
+    ssl: {
+        rejectUnauthorized: false,
+    },
 });
 
 export default  {
