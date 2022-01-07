@@ -1,4 +1,4 @@
-import Document from "../models/identityDocument.model.js";
+import Document from "../models/identityDocument.model";
 
 const createDocument = async (req, res) => {
   const {
