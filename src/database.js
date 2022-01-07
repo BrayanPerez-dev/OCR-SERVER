@@ -11,7 +11,7 @@ const pool = new Pool({
     database : process.env.DB_NAME,
     port : 5432
 });
-console.log(process.env.DB_PASS)
+
 export default  {
     
     async query(text, params) {
