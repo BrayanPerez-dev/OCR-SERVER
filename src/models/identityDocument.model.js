@@ -1,4 +1,4 @@
-import db from '../database.js'
+import db from '../db/index'
 
 function Document({
   firstname,
