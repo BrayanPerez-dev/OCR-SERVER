@@ -1,4 +1,4 @@
-import Document from "../models/identityDocument.model.mjs";
+import Document from "../models/identityDocument.model";
 
 const createDocument = async (req, res) => {
   const {
