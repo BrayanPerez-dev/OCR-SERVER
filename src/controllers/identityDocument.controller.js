@@ -33,6 +33,7 @@ const createDocument = async (req, res) => {
     await document.createDocument();
     res.status(200).json(document);
   } catch (error) {
+    console.log(error.message)
     res.status(400).json({ err: error.message  });
   }
 };

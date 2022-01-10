@@ -50,6 +50,7 @@ Document.prototype.createDocument = async function () {
     );
     return rows;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 };
