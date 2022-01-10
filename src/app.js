@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import documentRoute from './routes/identityDocument.route';
+import documentRoute from './routes/identityDocument.route.js';
 import dotenv from 'dotenv';
 
 dotenv.config()
