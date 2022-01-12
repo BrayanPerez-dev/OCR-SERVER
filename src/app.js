@@ -6,11 +6,12 @@ import documentRoute from './routes/identityDocument.route.js';
 import dotenv from 'dotenv';
 dotenv.config()
 
+const app = express();
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({extended:false}));
 
-const app = express();
 
 app.set('port', process.env.PORT || 4000)
 app.set('json spaces', 4);
