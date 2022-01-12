@@ -13,7 +13,8 @@ const createDocument = async (req, res) => {
     gender,
     marital_status,
     proffesion,
-    photo
+    photo,
+    placebirth
   } = req.body;
   try {
     const document = new Document({
@@ -28,7 +29,8 @@ const createDocument = async (req, res) => {
       gender,
       marital_status,
       proffesion,
-      photo
+      photo,
+      placebirth
     });
     await document.createDocument();
     res.status(200).json(document);
@@ -51,7 +53,9 @@ const getDocuments = async (req, res) => {
       gender:null,
       marital_status:null,
       proffesion:null,
-      photo:null})
+      photo:null,
+      placebirth:null
+    })
     const documents = await document.getDocuments()
     res.status(200).json(documents);
   } catch (error) {

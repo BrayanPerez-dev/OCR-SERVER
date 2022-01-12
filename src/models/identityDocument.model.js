@@ -13,6 +13,7 @@ function Document({
   marital_status,
   proffesion,
   photo,
+  placebirth
 }) {
   this.first_name = firstname;
   this.last_name = lastname;
@@ -26,15 +27,16 @@ function Document({
   this.marital_status = marital_status;
   this.proffesion = proffesion;
   this.photo = photo;
+  this.place_birth = placebirth;
 }
 
 Document.prototype.createDocument = async function () {
   try {
     const { rows } = await db.query(
       `INSERT INTO documents(first_name,last_name,date_birth,date_issue,date_expiry,num_document,addres,nationality,gender,marital_status,proffesion,photo)
-        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
       [
-        this.last_name,
+        this.first_name,
         this.last_name,
         this.date_birth,
         this.date_issue,
@@ -46,6 +48,7 @@ Document.prototype.createDocument = async function () {
         this.marital_status,
         this.proffesion,
         this.photo,
+        this.place_birth
       ]
     );
     return rows;
