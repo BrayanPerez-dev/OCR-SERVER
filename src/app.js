@@ -8,15 +8,13 @@ dotenv.config()
 
 const app = express();
 
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({extended:false}));
-
 
 app.set('port', process.env.PORT || 4000)
 app.set('json spaces', 4);
 app.use(cors());
 app.use(helmet());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 app.get('/',(req,res)=>{
     res.json({
         message: "Welcome to the server scanner intellityc",
