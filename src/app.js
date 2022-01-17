@@ -5,6 +5,7 @@ import cors from "cors";
 import documentRoute from "./routes/document.route";
 import authRoute from "./routes/auth.route";
 import morgan from "morgan";
+
 const app = express();
 
 app.set("port", process.env.PORT || 4000);
