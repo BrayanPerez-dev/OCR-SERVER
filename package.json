@@ -15,7 +15,6 @@
   "author": "technosal",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.16.7",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
