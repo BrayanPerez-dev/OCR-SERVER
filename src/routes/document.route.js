@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createDocument,getDocuments } from "../controllers/identityDocument.controller.js";
+import { createDocument,getDocuments } from "../controllers/documents.controller.js";
 const router = Router();
 
 router.post('/',createDocument)
