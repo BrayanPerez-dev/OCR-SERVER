@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import { singUp,signIn } from '../controllers/auth.controller.js'
-
+import { singUp,signIn } from '../controllers/auth.controller'
+import { checkDuplicateEmailorUsername } from '../middlewares/verifySingup';
 const router = Router()
 router.use((req, res, next) => {
     res.header(
@@ -11,7 +11,7 @@ router.use((req, res, next) => {
   });
 
 
-router.post('/singup',singUp);
+router.post('/singup',checkDuplicateEmailorUsername,singUp);
 router.post('/singin',signIn);
 
 export default router;

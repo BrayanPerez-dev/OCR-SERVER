@@ -2,9 +2,8 @@ import bodyParser from "body-parser";
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import documentRoute from "./routes/document.route.js";
-import userRoute from "./routes/user.route.js";
-import authRoute from "./routes/auth.route.js";
+import documentRoute from "./routes/document.route";
+import authRoute from "./routes/auth.route";
 import morgan from "morgan";
 const app = express();
 
@@ -25,7 +24,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/document", documentRoute);
-app.use("/api/user", userRoute);
 app.use("/api/auth", authRoute);
 
 export default app;

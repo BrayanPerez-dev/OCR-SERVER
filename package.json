@@ -6,9 +6,9 @@
   "engines": {
     "node": "16.13.1"
   },
-  "type": "module",
   "scripts": {
-    "dev": "nodemon  src/index.js ",
+    "dev": "nodemon --exec babel-node src/index.js  ",
+    "build": "babel src --out-dir build",
     "start": "node src/index.js"
   },
   "keywords": [],
