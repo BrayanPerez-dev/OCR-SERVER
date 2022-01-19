@@ -7,7 +7,7 @@ import Joi from "joi";
 const validatedschemaSingup = Joi.object({
   username: Joi.string().min(2).max(30).required(),
 
-  password: Joi.string().pattern(new RegExp("[A-Za-zÀ-ȕ0-9(),-_.,]")),
+  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')),
 
   email: Joi.string().email({
     minDomainSegments: 2,
@@ -16,7 +16,7 @@ const validatedschemaSingup = Joi.object({
 });
 
 const validatedschemaSinging = Joi.object({
-  password: Joi.string().pattern(new RegExp("[A-Za-zÀ-ȕ0-9(),-_.,]")),
+  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
@@ -33,14 +33,19 @@ export const singUp = async (req, res) => {
        VALUES($1,$2,$3)`,
         [username, cryptPass, email]
       );
-      const user = {
+      const userToToken = {
         username,
         email,
       };
-      const token = jwt.sign({ user }, config.SECRET, {
+      const token = jwt.sign({ userToToken }, config.SECRET, {
         expiresIn: config.EXPIRATION,
       });
-      res.status(200).json({ token });
+
+      const data = {
+        message : 'The user was created successfull',
+        token,
+      }
+      res.status(200).json({ data });
     } else {
       const message = error.details[0].message 
       res.status(400).json({ error:message });
@@ -79,7 +84,13 @@ export const signIn = async (req, res) => {
     const token = jwt.sign({ user }, config.SECRET, {
       expiresIn: config.EXPIRATION,
     });
-    res.status(200).json({ token });
+
+    const data = {
+      user,
+      token
+    }
+
+    res.status(200).json({ data });
   }else{
     const message = error.details[0].message 
     res.status(400).json({error:message})
