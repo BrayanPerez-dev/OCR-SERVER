@@ -4,6 +4,6 @@ import {verifyToken} from "../middlewares/authJwt";
 const router = Router();
 
 router.post('/',verifyToken,createDocument)
-router.get('/',getDocuments)
+router.get('/',verifyToken,getDocuments)
 
 export default router

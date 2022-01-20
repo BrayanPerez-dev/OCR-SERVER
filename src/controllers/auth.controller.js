@@ -22,7 +22,7 @@ const validatedschemaSinging = Joi.object({
     tlds: { allow: ["com", "net"] },
   }),
 });
-export const singUp = async (req, res) => {
+export const signUp = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     const { error } = validatedschemaSingup.validate({ username, password, email });
@@ -41,11 +41,7 @@ export const singUp = async (req, res) => {
         expiresIn: config.EXPIRATION,
       });
 
-      const data = {
-        message : 'The user was created successfull',
-        token,
-      }
-      res.status(200).json({ data });
+      res.status(200).json({ message : 'The user was created successfull',token });
     } else {
       const message = error.details[0].message 
       res.status(400).json({ error:message });
@@ -85,16 +81,13 @@ export const signIn = async (req, res) => {
       expiresIn: config.EXPIRATION,
     });
 
-    const data = {
-      user,
-      token
-    }
-
-    res.status(200).json({ data });
+    
+    res.status(200).json({ user,token });
   }else{
     const message = error.details[0].message 
     res.status(400).json({error:message})
   }
+  
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ error: error.message });
