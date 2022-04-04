@@ -1,7 +1,9 @@
 import {Router} from 'express'
 import { signUp,signIn } from '../controllers/auth.controller'
 import { checkDuplicateEmailorUsername } from '../middlewares/verifySingup';
+
 const router = Router()
+
 router.use((req, res, next) => {
     res.header(
       "Access-Control-Allow-Headers",

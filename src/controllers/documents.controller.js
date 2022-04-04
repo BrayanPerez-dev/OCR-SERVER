@@ -9,7 +9,6 @@ const validatedschemaDocument = Joi.object({
   dateexpiry: Joi.date().required(),
   numdocument: Joi.number().required(),
   address: Joi.string().required(),
-  nationality: Joi.string().required(),
   gender: Joi.string().required(),
   marital_status: Joi.string().required(),
   proffesion: Joi.string().required(),
@@ -27,7 +26,6 @@ export const createDocument = async (req, res) => {
       dateexpiry,
       numdocument,
       address,
-      nationality,
       gender,
       marital_status,
       proffesion,
@@ -42,7 +40,6 @@ export const createDocument = async (req, res) => {
       dateexpiry,
       numdocument,
       address,
-      nationality,
       gender,
       marital_status,
       proffesion,
@@ -52,8 +49,8 @@ export const createDocument = async (req, res) => {
     
     if(!error){
       await db.query(
-        `INSERT INTO documents(first_name,last_name,date_birth,date_issue,date_expiry,num_document,addres,nationality,gender,marital_status,proffesion,photo,place_birth)
-        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
+        `INSERT INTO documents(first_name,last_name,date_birth,date_issue,date_expiry,num_document,addres,gender,marital_status,proffesion,photo,place_birth)
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
         [
           firstname,
           lastname,
@@ -62,7 +59,6 @@ export const createDocument = async (req, res) => {
           dateexpiry,
           numdocument,
           address,
-          nationality,
           gender,
           marital_status,
           proffesion,
@@ -70,7 +66,17 @@ export const createDocument = async (req, res) => {
           placebirth,
         ]
       );
-      res.status(200).json({ "document number": numdocument });
+
+      const { rows } = await db.query("SELECT * FROM documents WHERE num_document = $1", [
+        numdocument,
+      ]);
+
+      const result = {
+          id:rows[0].id_document,
+          numdocument: rows[0].num_document
+         };
+
+         res.status(200).json({ result });
     }else{
       const message = error.details[0].message
       res.status(400).json({ error : message });

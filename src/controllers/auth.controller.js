@@ -7,20 +7,20 @@ import Joi from "joi";
 const validatedschemaSingup = Joi.object({
   username: Joi.string().min(2).max(30).required(),
 
-  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')),
+  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')).required(),
 
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
-  }),
+  }).required(),
 });
 
 const validatedschemaSinging = Joi.object({
-  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')),
+  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,12})')).required(),
   email: Joi.string().email({
     minDomainSegments: 2,
     tlds: { allow: ["com", "net"] },
-  }),
+  }).required(),
 });
 export const signUp = async (req, res) => {
   try {
@@ -40,6 +40,7 @@ export const signUp = async (req, res) => {
       const token = jwt.sign({ userToToken }, config.SECRET, {
         expiresIn: config.EXPIRATION,
       });
+
 
       res.status(200).json({ message : 'The user was created successfull',token });
     } else {
@@ -71,12 +72,12 @@ export const signIn = async (req, res) => {
     const row = rows[0];
 
     const user = {
-      id : row.id,
+      id : row.id_user,
       user_name: row.user_name,
       email : row.email,
     };
 
-    console.log(user);
+    console.log(user,rows[0]);
     const token = jwt.sign({ user }, config.SECRET, {
       expiresIn: config.EXPIRATION,
     });
