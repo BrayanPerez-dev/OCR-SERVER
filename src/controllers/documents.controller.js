@@ -4,7 +4,7 @@ import Joi from "joi";
 const validatedschemaDocument = Joi.object({
   firstname: Joi.string().required(),
   lastname: Joi.string().required(),
-  datebirth: Joi.date().required(),
+  datebirth: Joi.string().required(),
   dateissue: Joi.string().required(),
   dateexpiry: Joi.string().required(),
   numdocument: Joi.string().required(),
