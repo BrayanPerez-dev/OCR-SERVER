@@ -1,19 +1,18 @@
-import {Router} from 'express'
-import { signUp,signIn } from '../controllers/auth.controller'
+import { Router } from 'express';
+import { signUp, signIn } from '../controllers/auth.controller';
 import { checkDuplicateEmailorUsername } from '../middlewares/verifySingup';
 
-const router = Router()
+const router = Router();
 
 router.use((req, res, next) => {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+	res.header(
+		'Access-Control-Allow-Headers',
+		'x-access-token, Origin, Content-Type, Accept'
+	);
+	next();
+});
 
-
-router.post('/signup',checkDuplicateEmailorUsername,signUp);
-router.post('/signin',signIn);
+router.post('/signup', checkDuplicateEmailorUsername, signUp);
+router.post('/signin', signIn);
 
 export default router;
