@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import documentRoute from './routes/document.route';
 import authRoute from './routes/auth.route';
+import companyRoute from './routes/company.route';
 import morgan from 'morgan';
 import multer from 'multer';
 
@@ -30,5 +31,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/document', documentRoute);
 app.use('/api/auth', authRoute);
+app.use('/api/company', companyRoute);
 
 export default app;

@@ -1,7 +1,8 @@
-import pg from 'pg';
+// import pg from 'pg';
 import config from '../config';
+import Sequelize from 'sequelize';
 
-const { Pool } = pg;
+/* const { Pool } = pg;
 
 const devConfig = {
 	user: config.DB_USER,
@@ -20,6 +21,25 @@ const proConfing = {
 
 const pool = new Pool(
 	config.NODE_ENV === 'production' ? proConfing : devConfig
-);
+); 
 
 export default pool;
+
+*/
+
+export const sequelize = new Sequelize(
+	config.DB_NAME,
+	config.DB_USER,
+	config.DB_PASS,
+	{
+		host: config.DB_HOST,
+		dialect: config.DIALECT,
+		pool: {
+			max: 5,
+			min: 0,
+			require: 30000,
+			idle: 10000,
+		},
+		logging: false,
+	}
+);
