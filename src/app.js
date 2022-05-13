@@ -5,6 +5,7 @@ import cors from 'cors';
 import documentRoute from './routes/document.route';
 import authRoute from './routes/auth.route';
 import companyRoute from './routes/company.route';
+import branchOffices from './routes/branchoffices.route';
 import morgan from 'morgan';
 import multer from 'multer';
 
@@ -32,5 +33,5 @@ app.get('/', (req, res) => {
 app.use('/api/document', documentRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/company', companyRoute);
-
+app.use('/api/branchoffices', branchOffices);
 export default app;

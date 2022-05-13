@@ -4,14 +4,16 @@ import {
 	deleteCompany,
 	getAllCompanys,
 	getCompany,
-	updatedCompany,
+	updateCompany,
+	getCompanyBranchOffices,
 } from '../controllers/company.controller';
 
 const router = Router();
 
 router.post('/', createCompany);
 router.get('/', getAllCompanys);
-router.get('/:name', getCompany);
+router.get('/:id', getCompany);
 router.delete('/:id', deleteCompany);
-router.put('/:id', updatedCompany);
+router.put('/:id', updateCompany);
+router.get('/:id/branchoffices', getCompanyBranchOffices);
 export default router;
