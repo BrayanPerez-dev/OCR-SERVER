@@ -1,8 +1,8 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
 
-export const BranchOffices = sequelize.define(
-	'branchoffices',
+export const BranchOffice = sequelize.define(
+	'branchoffice',
 	{
 		id: {
 			type: DataTypes.INTEGER,

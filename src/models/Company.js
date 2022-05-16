@@ -1,9 +1,10 @@
 import { sequelize } from '../db/index';
 import { DataTypes } from 'sequelize';
 import { dateFormat } from '../utils/dates';
-import { BranchOffices } from './BranchOffices';
+import { BranchOffice } from './BranchOffice';
+import { Contact } from './Contact';
 export const Company = sequelize.define(
-	'companys',
+	'company',
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -86,9 +87,16 @@ export const Company = sequelize.define(
 	}
 );
 
-Company.hasMany(BranchOffices, {
-	foreinKey: 'companyId',
+Company.hasMany(BranchOffice, {
+	foreignKey: 'companyId',
 	sourceKey: 'id',
 });
 
-BranchOffices.belongsTo(Company, { foreinKey: 'companyId', targetId: 'id' });
+BranchOffice.belongsTo(Company, { foreignKey: 'companyId', targetId: 'id' });
+
+Company.hasMany(Contact, {
+	foreignKey: 'companyId',
+	sourceKey: 'id',
+});
+
+Contact.belongsTo(Company, { foreignKey: 'companyId', targetId: 'id' });

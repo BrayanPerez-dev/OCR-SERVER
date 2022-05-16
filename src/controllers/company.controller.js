@@ -1,6 +1,7 @@
 import { Company } from '../models/Company';
 import Joi from 'joi';
-import { BranchOffices } from '../models/BranchOffices';
+import { BranchOffice } from '../models/BranchOffice';
+import { Contact } from '../models/Contact';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -19,7 +20,6 @@ const validatedSchemaCompany = Joi.object({
 	monthlyAmount: Joi.number().required(),
 	available: Joi.number().integer().required(),
 	paymentDate: Joi.required(),
-	license: Joi.number().integer().required(),
 	logo: Joi.string().required(),
 	colorOne: Joi.string().required(),
 	colorTwo: Joi.string().required(),
@@ -27,29 +27,23 @@ const validatedSchemaCompany = Joi.object({
 });
 
 export async function createCompany(req, res) {
-	const { name, nrc, nit, license } = req.body;
+	const { name, nrc, nit } = req.body;
 
 	try {
 		const { error } = validatedSchemaCompany.validate({ ...req.body });
 		if (error?.details[0]?.message) {
 			throw new Error(error?.details[0]?.message);
 		}
-		const findName = await Company.findOne({ where: { name } });
-		const findNrc = await Company.findOne({ where: { nrc } });
-		const findNit = await Company.findOne({ where: { nit } });
-		const findLicense = await Company.findOne({ where: { license } });
-
-		const finders = await Promise.all([
-			findName,
-			findNrc,
-			findNit,
-			findLicense,
-		]);
+		const findName = Company.findOne({ where: { name } });
+		const findNrc = Company.findOne({ where: { nrc } });
+		const findNit = Company.findOne({ where: { nit } });
+		const companys = Company.findAll();
+		const finders = await Promise.all([findName, findNrc, findNit, companys]);
+		req.body.license = finders[3].length + 1;
 		if (
 			finders[0]?.dataValues ||
 			finders[1]?.dataValues ||
-			finders[2]?.dataValues ||
-			finders[3]?.dataValues
+			finders[2]?.dataValues
 		) {
 			console.log('Repeated values');
 			return res.status(500).json({ message: 'Repeated values' });
@@ -105,10 +99,22 @@ export async function updateCompany(req, res) {
 export async function getCompanyBranchOffices(req, res) {
 	const { id } = req.params;
 	try {
-		const foundCompanyBranchOffices = await BranchOffices.findAll({
+		const foundCompanyBranchOffices = await BranchOffice.findAll({
 			where: { companyId: id },
 		});
 		res.status(200).json({ foundCompanyBranchOffices });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
+
+export async function getCompanyContacts(req, res) {
+	const { id } = req.params;
+	try {
+		const foundCompanyContacts = await Contact.findAll({
+			where: { companyId: id },
+		});
+		res.status(200).json({ foundCompanyContacts });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

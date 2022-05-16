@@ -5,7 +5,7 @@ import {
 	getALLBranchOffices,
 	deleteBranchOffices,
 	updateBranchOffices,
-} from '../controllers/branchoffices.controller';
+} from '../controllers/branchoffice.controller';
 
 const router = Router();
 
