@@ -1,12 +1,18 @@
-import db from '../db/index';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 import bcrypt from 'bcrypt';
 import Joi from 'joi';
+import { User } from '../models/User';
 
 const validatedschemaSingup = Joi.object({
-	username: Joi.string().min(2).max(30).required(),
-
+	name: Joi.string().required(),
+	lastName: Joi.string().required(),
+	user: Joi.string().min(2).max(30).required(),
+	address: Joi.string().required(),
+	telephone: Joi.string().required(),
+	dui: Joi.string().required(),
+	branchofficeId: Joi.number().integer().required(),
+	profileId: Joi.number().integer().required(),
 	password: Joi.string()
 		.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,12})/)
 		.required(),
@@ -32,34 +38,21 @@ const validatedschemaSinging = Joi.object({
 });
 export const signUp = async (req, res) => {
 	try {
-		const { username, email, password } = req.body;
-		const { error } = validatedschemaSingup.validate({
-			username,
-			password,
-			email,
-		});
-		if (!error) {
-			const cryptPass = bcrypt.hashSync(password, 10);
-			await db.query(
-				`INSERT INTO users(user_name,password,email)
-       VALUES($1,$2,$3)`,
-				[username, cryptPass, email]
-			);
-			const userToToken = {
-				username,
-				email,
-			};
-			const token = jwt.sign({ userToToken }, config.SECRET, {
-				expiresIn: config.EXPIRATION,
-			});
+		const { error } = validatedschemaSingup.validate({ ...req.body });
 
-			res
-				.status(200)
-				.json({ message: 'The user was created successfull', token });
-		} else {
-			const message = error.details[0].message;
-			res.status(400).json({ error: message });
+		if (error?.details[0]?.message) {
+			throw new Error(error?.details[0]?.message);
 		}
+		const cryptPass = bcrypt.hashSync(req.body.password, 10);
+		req.body.password = cryptPass;
+		const token = jwt.sign({ ...req.body }, config.SECRET, {
+			expiresIn: config.EXPIRATION,
+		});
+		const newUser = await User.create({ ...req.body });
+		await newUser.save();
+		res
+			.status(200)
+			.json({ message: 'The user was created successfull', token });
 	} catch (error) {
 		console.log(error.message);
 		res.status(400).json({ error: error.message });
@@ -73,33 +66,32 @@ export const signIn = async (req, res) => {
 			password,
 			email,
 		});
-		if (!error) {
-			const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [
-				email,
-			]);
-			const passwordDatabase = rows[0].password;
-			const matchPassword = bcrypt.compareSync(password, passwordDatabase);
-			if (!matchPassword) {
-				res.status(401).json({ token: null, message: 'Invalid Password' });
-			}
-			const row = rows[0];
-
-			const user = {
-				id: row.id_user,
-				user_name: row.user_name,
-				email: row.email,
-			};
-
-			console.log(user, rows[0]);
-			const token = jwt.sign({ user }, config.SECRET, {
-				expiresIn: config.EXPIRATION,
-			});
-
-			res.status(200).json({ user, token });
-		} else {
-			const message = error.details[0].message;
-			res.status(400).json({ error: message });
+		if (error?.details[0]?.message) {
+			throw new Error(error?.details[0]?.message);
 		}
+		const foundUser = await User.findOne({ where: { email } });
+		const passwordDatabase = foundUser.password;
+		const matchPassword = bcrypt.compareSync(password, passwordDatabase);
+		if (!matchPassword) {
+			return res.status(401).json({ token: null, message: 'Invalid Password' });
+		}
+
+		const token = jwt.sign({ foundUser }, config.SECRET, {
+			expiresIn: config.EXPIRATION,
+		});
+
+		const user = {
+			id: foundUser.id,
+			user: foundUser.user,
+			name: foundUser.name,
+			lastName: foundUser.lastName,
+			telephone: foundUser.telephone,
+			email: foundUser.email,
+			dui: foundUser.dui,
+			profileId: foundUser.profileId,
+			branchofficeId: foundUser.branchofficeId,
+		};
+		res.status(200).json({ user, token });
 	} catch (error) {
 		console.log(error.message);
 		res.status(400).json({ error: error.message });

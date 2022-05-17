@@ -1,5 +1,6 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
+import { User } from './User';
 
 export const BranchOffice = sequelize.define(
 	'branchoffice',
@@ -28,3 +29,10 @@ export const BranchOffice = sequelize.define(
 	},
 	{ timestamps: false }
 );
+
+BranchOffice.hasMany(User, {
+	sourceKey: 'id',
+	foreingKey: 'branchofficeKey',
+});
+
+User.belongsTo(BranchOffice, { targetId: 'id', foreingKey: 'branchofficeKey' });

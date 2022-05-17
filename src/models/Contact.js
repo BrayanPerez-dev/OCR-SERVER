@@ -35,7 +35,7 @@ export const Contact = sequelize.define(
 	}
 );
 
-TypeContact.hasMany(Contact, {
+TypeContact.hasOne(Contact, {
 	sourceKey: 'id',
 	foreingKey: 'typecontactId',
 });

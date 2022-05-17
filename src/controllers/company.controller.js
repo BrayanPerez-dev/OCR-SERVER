@@ -2,6 +2,7 @@ import { Company } from '../models/Company';
 import Joi from 'joi';
 import { BranchOffice } from '../models/BranchOffice';
 import { Contact } from '../models/Contact';
+import { paymentDate } from '../utils/dates';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -40,6 +41,7 @@ export async function createCompany(req, res) {
 		const companys = Company.findAll();
 		const finders = await Promise.all([findName, findNrc, findNit, companys]);
 		req.body.license = finders[3].length + 1;
+		req.body.paymentDate = paymentDate(req.body.paymentDate);
 		if (
 			finders[0]?.dataValues ||
 			finders[1]?.dataValues ||
@@ -59,8 +61,8 @@ export async function createCompany(req, res) {
 
 export async function getAllCompanys(req, res) {
 	try {
-		const companys = await Company.findAll();
-		res.status(200).json({ companys });
+		const companies = await Company.findAll();
+		res.status(200).json({ companies });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -69,8 +71,9 @@ export async function getAllCompanys(req, res) {
 export async function getCompany(req, res) {
 	const { id } = req.params;
 	try {
-		const companys = await Company.findOne({ where: { id } });
-		res.status(200).json({ companys });
+		const company = await Company.findOne({ where: { id } });
+
+		res.status(200).json({ company });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

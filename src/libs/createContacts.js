@@ -3,10 +3,8 @@ import { TypeContact } from '../models/TypeContact';
 
 export async function createTypeContacts() {
 	const contactFound = await TypeContact.findAll();
-	console.log(contactFound);
-	if (contactFound.length) {
+	if (contactFound.length)
 		return 'the contacts have already been  created successfully';
-	}
 
 	const adminContact = await TypeContact.create({
 		description: 'Contacto Administrivo',

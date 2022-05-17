@@ -1,21 +1,16 @@
-import db from '../db/index.js';
+import { User } from '../models/User';
 
 export const checkDuplicateEmailorUsername = async (req, res, next) => {
 	try {
-		const { email, username } = req.body;
+		const { email, user } = req.body;
 
-		const emailFound = await db.query('SELECT * FROM users WHERE email = $1', [
-			email,
-		]);
+		const emailFound = await User.findOne({ where: { email } });
 
-		const userNameFound = await db.query(
-			'SELECT * FROM users WHERE user_name = $1',
-			[username]
-		);
-		if (emailFound.rows[0])
+		const userNameFound = await User.findOne({ where: { user } });
+		if (emailFound)
 			return res.status(400).json({ message: 'email already exists ' });
 
-		if (userNameFound.rows[0])
+		if (userNameFound)
 			return res.status(400).json({ message: 'user name already exists' });
 
 		next();

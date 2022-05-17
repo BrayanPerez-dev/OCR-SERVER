@@ -11,11 +11,13 @@ import branchOfficeRoute from './routes/branchoffice.route';
 import contactRoute from './routes/contact.route';
 import typeContactRoute from './routes/typecontact.route';
 import { createTypeContacts } from './libs/createContacts';
+import { createProfiles } from './libs/createProfiles';
 
 const app = express();
 const form = multer();
 
 createTypeContacts();
+createProfiles();
 
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);
