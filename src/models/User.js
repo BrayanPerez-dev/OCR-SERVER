@@ -1,6 +1,7 @@
 import { sequelize } from '../db/index';
 import { DataTypes } from 'sequelize';
 import { Profile } from './Profile';
+import { Log } from './Log';
 
 export const User = sequelize.define(
 	'user',
@@ -57,3 +58,10 @@ Profile.hasOne(User, {
 });
 
 User.belongsTo(Profile, { targetKey: 'id', foreingKey: 'profileId' });
+
+User.hasOne(Log, {
+	sourceKey: 'id',
+	foreingKey: 'userId',
+});
+
+User.belongsTo(Profile, { targetKey: 'id', foreingKey: 'userId' });

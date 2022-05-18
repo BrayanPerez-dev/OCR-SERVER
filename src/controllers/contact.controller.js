@@ -1,4 +1,5 @@
 import { Contact } from '../models/Contact';
+import { TypeContact } from '../models/TypeContact';
 
 export async function createContact(req, res) {
 	try {
@@ -13,7 +14,10 @@ export async function createContact(req, res) {
 export async function getContact(req, res) {
 	const { id } = req.params;
 	try {
-		const contact = await Contact.findOne({ where: { id } });
+		const contact = await Contact.findOne({
+			where: { id },
+			include: TypeContact,
+		});
 		res.status(200).json({ contact });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -22,7 +26,7 @@ export async function getContact(req, res) {
 
 export async function getContacts(req, res) {
 	try {
-		const contact = await Contact.findAll();
+		const contact = await Contact.findAll({ include: TypeContact });
 		res.status(200).json({ contact });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

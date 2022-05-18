@@ -72,14 +72,17 @@ export const signIn = async (req, res) => {
 		const foundUser = await User.findOne({ where: { email } });
 		const passwordDatabase = foundUser.password;
 		const matchPassword = bcrypt.compareSync(password, passwordDatabase);
-		if (!matchPassword) {
-			return res.status(401).json({ token: null, message: 'Invalid Password' });
+
+		if (!matchPassword | !foundUser) {
+			return res.status(401).json({
+				token: null,
+				message: 'Invalid Password or User does not exist',
+			});
 		}
 
 		const token = jwt.sign({ foundUser }, config.SECRET, {
 			expiresIn: config.EXPIRATION,
 		});
-
 		const user = {
 			id: foundUser.id,
 			user: foundUser.user,

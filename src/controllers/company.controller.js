@@ -3,6 +3,8 @@ import Joi from 'joi';
 import { BranchOffice } from '../models/BranchOffice';
 import { Contact } from '../models/Contact';
 import { paymentDate } from '../utils/dates';
+import { User } from '../models/User';
+import { Profile } from '../models/Profile';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -99,11 +101,33 @@ export async function updateCompany(req, res) {
 	}
 }
 
-export async function getCompanyBranchOffices(req, res) {
+export async function getCompanyAllData(req, res) {
 	const { id } = req.params;
 	try {
-		const foundCompanyBranchOffices = await BranchOffice.findAll({
-			where: { companyId: id },
+		const foundCompanyBranchOffices = await Company.findAll({
+			where: { id },
+			include: [
+				{
+					model: BranchOffice,
+					include: [
+						{
+							model: User,
+							attributes: [
+								'id',
+								'user',
+								'name',
+								'lastName',
+								'telephone',
+								'email',
+								'dui',
+								'profileId',
+								'branchofficeId',
+							],
+							include: [Profile],
+						},
+					],
+				},
+			],
 		});
 		res.status(200).json({ foundCompanyBranchOffices });
 	} catch (error) {

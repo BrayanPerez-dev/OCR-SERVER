@@ -5,8 +5,8 @@ import {
 	getAllCompanys,
 	getCompany,
 	updateCompany,
-	getCompanyBranchOffices,
 	getCompanyContacts,
+	getCompanyAllData,
 } from '../controllers/company.controller';
 
 const router = Router();
@@ -16,6 +16,6 @@ router.get('/', getAllCompanys);
 router.get('/:id', getCompany);
 router.delete('/:id', deleteCompany);
 router.put('/:id', updateCompany);
-router.get('/:id/branchoffices', getCompanyBranchOffices);
+router.get('/:id/data', getCompanyAllData);
 router.get('/:id/contacts', getCompanyContacts);
 export default router;
