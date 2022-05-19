@@ -20,8 +20,8 @@ import { createProfiles } from './libs/createProfiles';
 const app = express();
 const form = multer();
 
-createTypeContacts();
-createProfiles();
+/* createTypeContacts();
+createProfiles(); */
 
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);

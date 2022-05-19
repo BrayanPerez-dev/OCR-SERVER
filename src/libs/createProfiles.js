@@ -5,29 +5,29 @@ export async function createProfiles() {
 
 	if (profile.length)
 		return 'the profiles have already been  created successfully';
-	const adminMain = await Profile.create({
-		description: 'administrador de todo el sistema',
-		action: 'reed,write,execute',
+	const superUser = await Profile.create({
+		description: 'Super Usuario',
+		action: ['reed', 'write', 'execute'],
 		level: 1,
 	});
-	const adminCompany = await Profile.create({
-		description: 'administrador de la empresa',
-		action: 'reed,write,execute',
+	const admin = await Profile.create({
+		description: 'Administrador',
+		action: ['reed', 'write', 'execute'],
 		level: 2,
 	});
 	const managerbranch = await Profile.create({
-		description: 'gerente de la sucursal',
-		action: 'reed,write',
+		description: 'Gerente Sucursal',
+		action: ['reed', 'write'],
 		level: 3,
 	});
 	const employee = await Profile.create({
-		description: 'empleado de la sucursal',
-		action: 'reed,write',
+		description: 'Empleado Sucursal',
+		action: ['reed', 'write'],
 		level: 4,
 	});
 
-	await adminMain.save();
-	await adminCompany.save();
+	await superUser.save();
+	await admin.save();
 	await managerbranch.save();
 	await employee.save();
 

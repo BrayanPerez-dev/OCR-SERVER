@@ -13,18 +13,27 @@ export const BranchOffice = sequelize.define(
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			notNull: true,
+			notEmpty: true,
 		},
 		address: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			notNull: true,
+			notEmpty: true,
 		},
 		telephone: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			notNull: true,
+			notEmpty: true,
 		},
 		email: {
 			type: DataTypes.STRING,
+			isEmail: true,
 			allowNull: false,
+			notNull: true,
+			notEmpty: true,
 		},
 	},
 	{ timestamps: false }

@@ -12,16 +12,19 @@ export const Profile = sequelize.define(
 		description: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 		action: {
-			type: DataTypes.STRING,
+			type: DataTypes.ARRAY(DataTypes.STRING),
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 		level: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 	},

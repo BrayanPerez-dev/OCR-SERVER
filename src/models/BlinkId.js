@@ -1,8 +1,8 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
 
-export const BlinkId = sequelize.define(
-	'blinkid',
+export const scanData = sequelize.define(
+	'scandata',
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -10,7 +10,7 @@ export const BlinkId = sequelize.define(
 			primaryKey: true,
 		},
 		scanData: {
-			type: DataTypes.ARRAY(DataTypes.JSON),
+			type: DataTypes.JSON(),
 		},
 	},
 	{ timestamps: false }

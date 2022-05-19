@@ -9,7 +9,12 @@ export const TypeContact = sequelize.define(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		description: { type: DataTypes.STRING, allowNull: true },
+		description: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			notNull: true,
+			notEmpty: true,
+		},
 	},
 	{
 		timestamps: false,

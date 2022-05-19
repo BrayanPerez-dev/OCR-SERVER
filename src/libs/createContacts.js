@@ -1,5 +1,4 @@
 import { TypeContact } from '../models/TypeContact';
-// contacto administrativo contacto technico contacto comercial
 
 export async function createTypeContacts() {
 	const contactFound = await TypeContact.findAll();
@@ -7,17 +6,17 @@ export async function createTypeContacts() {
 		return 'the contacts have already been  created successfully';
 
 	const adminContact = await TypeContact.create({
-		description: 'Contacto Administrivo',
+		description: 'Contacto Administrativo',
 	});
-	const tecContact = await TypeContact.create({
-		description: 'Contacto Tecnico',
+	const technicalContact = await TypeContact.create({
+		description: 'Contacto Técnico',
 	});
-	const comContact = await TypeContact.create({
+	const commerciaContact = await TypeContact.create({
 		description: 'Contacto Comercial',
 	});
 
 	await adminContact.save();
-	await tecContact.save();
-	await comContact.save();
+	await technicalContact.save();
+	await commerciaContact.save();
 	return 'the contacts were created successfully';
 }

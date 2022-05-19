@@ -1,6 +1,6 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
-import { BlinkId } from './BlinkId';
+import { scanData } from './BlinkId';
 
 export const Log = sequelize.define(
 	'log',
@@ -13,27 +13,31 @@ export const Log = sequelize.define(
 		date: {
 			type: DataTypes.DATEONLY,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 		send: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 		receive: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 		transfer: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			notNull: true,
 			notEmpty: true,
 		},
 	},
 	{ timestamps: false }
 );
 
-Log.hasMany(BlinkId, { sourceKey: 'id', foreingKey: 'logId' });
+Log.hasMany(scanData, { sourceKey: 'id', foreingKey: 'logId' });
 
-BlinkId.belongsTo(Log, { targetKey: 'id', foreingKey: 'logId' });
+scanData.belongsTo(Log, { targetKey: 'id', foreingKey: 'logId' });
