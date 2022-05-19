@@ -12,16 +12,15 @@ import typeContactRoute from './routes/typecontact.route';
 import userRoute from './routes/user.route';
 import profileRoute from './routes/profile.route';
 import logRoute from './routes/log.route';
-import blinkidRoute from './routes/blinkid.route';
-
+import scanDataRoute from './routes/scandata.route';
 import { createTypeContacts } from './libs/createContacts';
 import { createProfiles } from './libs/createProfiles';
 
 const app = express();
 const form = multer();
 
-/* createTypeContacts();
-createProfiles(); */
+createTypeContacts();
+createProfiles();
 
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);
@@ -48,7 +47,7 @@ app.use('/api/contact', contactRoute);
 app.use('/api/type-contact', typeContactRoute);
 app.use('/api/user', userRoute);
 app.use('/api/log', logRoute);
-app.use('/api/blickid', blinkidRoute);
+app.use('/api/scandata', scanDataRoute);
 app.use('/api/profile', profileRoute);
 
 export default app;

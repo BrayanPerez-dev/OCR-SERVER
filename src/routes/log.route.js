@@ -1,16 +1,17 @@
 import { Router } from 'express';
+
 import {
-	deleteBlinkId,
-	getBlinkId,
-	getBlinkIds,
-} from '../controllers/blinkid.controller';
-import { createLog } from '../controllers/log.controller';
+	createLog,
+	getLog,
+	getLogs,
+	deleteLog,
+} from '../controllers/log.controller';
 
 const router = Router();
 
 router.post('/', createLog);
-router.get('/:id', getBlinkId);
-router.get('/:id', getBlinkIds);
-router.get('/:id', deleteBlinkId);
+router.get('/:id', getLog);
+router.get('/:id', getLogs);
+router.get('/:id', deleteLog);
 
 export default router;

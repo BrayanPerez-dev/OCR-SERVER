@@ -1,7 +1,7 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
 
-export const scanData = sequelize.define(
+export const ScanData = sequelize.define(
 	'scandata',
 	{
 		id: {
