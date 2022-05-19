@@ -1,8 +1,29 @@
+import Joi from 'joi';
 import { Contact } from '../models/Contact';
 import { TypeContact } from '../models/TypeContact';
 
+const validateSchemaContact = Joi.object({
+	name: Joi.string().required(),
+	lastName: Joi.string().required(),
+	address: Joi.string().required(),
+	telephone: Joi.string().required(),
+	dui: Joi.string().required(),
+	email: Joi.string()
+		.email({
+			minDomainSegments: 2,
+			tlds: { allow: ['com', 'net'] },
+		})
+		.required(),
+	companyId: Joi.number().integer(),
+	typecontactId: Joi.number().integer(),
+});
+
 export async function createContact(req, res) {
 	try {
+		const { error } = validateSchemaContact.validate({ ...req.body });
+		if (error?.details[0]?.message) {
+			throw new Error(error?.details[0]?.message);
+		}
 		const newContact = await Contact.create({ ...req.body });
 		await newContact.save();
 		res.status(200).json(newContact);

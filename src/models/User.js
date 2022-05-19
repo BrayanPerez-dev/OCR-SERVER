@@ -16,6 +16,8 @@ export const User = sequelize.define(
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
+			max: 2,
+			min: 30,
 		},
 		name: {
 			type: DataTypes.STRING,
@@ -31,6 +33,7 @@ export const User = sequelize.define(
 		},
 		password: {
 			type: DataTypes.STRING,
+			is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,12})/,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,

@@ -9,8 +9,8 @@ import {
 const router = Router();
 
 router.post('/', createScanData);
+router.get('/log/data/:id', getAllScanData);
 router.get('/:id', getScanData);
-router.get('/:id', getAllScanData);
 router.delete('/:id', deleteScanData);
 
 export default router;

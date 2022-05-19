@@ -1,6 +1,7 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
 import { ScanData } from './ScanData';
+import { dateFormat } from '../utils/dates';
 
 export const Log = sequelize.define(
 	'log',
@@ -12,6 +13,9 @@ export const Log = sequelize.define(
 		},
 		date: {
 			type: DataTypes.DATEONLY,
+			get: function () {
+				return dateFormat(this.getDataValue('paymentDate'));
+			},
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,

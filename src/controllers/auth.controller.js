@@ -8,7 +8,6 @@ const validatedschemaSingup = Joi.object({
 	name: Joi.string().required(),
 	lastName: Joi.string().required(),
 	user: Joi.string().min(2).max(30).required(),
-	address: Joi.string().required(),
 	telephone: Joi.string().required(),
 	dui: Joi.string().required(),
 	branchofficeId: Joi.number().integer().required(),

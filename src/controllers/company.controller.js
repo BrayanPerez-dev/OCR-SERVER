@@ -5,6 +5,9 @@ import { Contact } from '../models/Contact';
 import { paymentDate } from '../utils/dates';
 import { User } from '../models/User';
 import { Profile } from '../models/Profile';
+import { TypeContact } from '../models/TypeContact';
+import { Log } from '../models/Log';
+import { ScanData } from '../models/ScanData';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -22,7 +25,7 @@ const validatedSchemaCompany = Joi.object({
 	contractedImages: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
 	available: Joi.number().integer().required(),
-	paymentDate: Joi.required(),
+	paymentDate: Joi.date().required(),
 	logo: Joi.string().required(),
 	colorOne: Joi.string().required(),
 	colorTwo: Joi.string().required(),
@@ -123,10 +126,14 @@ export async function getCompanyAllData(req, res) {
 								'profileId',
 								'branchofficeId',
 							],
-							include: [Profile],
+							include: [
+								{ model: Profile },
+								{ model: Log, include: [ScanData] },
+							],
 						},
 					],
 				},
+				{ model: Contact, include: [TypeContact] },
 			],
 		});
 		res.status(200).json({ foundCompanyBranchOffices });
