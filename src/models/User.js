@@ -68,9 +68,9 @@ Profile.hasOne(User, {
 
 User.belongsTo(Profile, { targetKey: 'id', foreingKey: 'profileId' });
 
-User.hasOne(Log, {
+User.hasMany(Log, {
 	sourceKey: 'id',
 	foreingKey: 'userId',
 });
 
-User.belongsTo(Profile, { targetKey: 'id', foreingKey: 'userId' });
+Log.belongsTo(User, { targetKey: 'id', foreingKey: 'userId' });

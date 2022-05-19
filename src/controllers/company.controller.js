@@ -16,20 +16,21 @@ const validatedSchemaCompany = Joi.object({
 	nrc: Joi.string().required(),
 	turn: Joi.string().required(),
 	nit: Joi.string().required(),
-	email: Joi.string()
-		.email({
-			minDomainSegments: 2,
-			tlds: { allow: ['com', 'net'] },
-		})
-		.required(),
+	email: Joi.string().required(),
 	contractedImages: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
 	available: Joi.number().integer().required(),
-	paymentDate: Joi.date().required(),
+	paymentDate: Joi.required(),
 	logo: Joi.string().required(),
-	colorOne: Joi.string().required(),
-	colorTwo: Joi.string().required(),
-	colorThree: Joi.string().required(),
+	colorOne: Joi.string()
+		.pattern(/#([a-f0-9]{3}){1,2}\b/i)
+		.required(),
+	colorTwo: Joi.string()
+		.pattern(/#([a-f0-9]{3}){1,2}\b/i)
+		.required(),
+	colorThree: Joi.string()
+		.pattern(/#([a-f0-9]{3}){1,2}\b/i)
+		.required(),
 });
 
 export async function createCompany(req, res) {

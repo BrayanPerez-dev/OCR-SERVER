@@ -99,18 +99,21 @@ export const Company = sequelize.define(
 		},
 		colorOne: {
 			type: DataTypes.STRING,
+			is: /#([[:xdigit:]]{3}){1,2}\b/,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
 		},
 		colorTwo: {
 			type: DataTypes.STRING,
+			is: /#([[:xdigit:]]{3}){1,2}\b/,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
 		},
 		colorThree: {
 			type: DataTypes.STRING,
+			is: /#([[:xdigit:]]{3}){1,2}\b/,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
