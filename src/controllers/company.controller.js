@@ -18,6 +18,7 @@ const validatedSchemaCompany = Joi.object({
 	nit: Joi.string().required(),
 	email: Joi.string().email().required(),
 	contractedImages: Joi.number().integer().required(),
+	contractedImagesMade: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
 	available: Joi.boolean().required(),
 	paymentDate: Joi.date().required(),

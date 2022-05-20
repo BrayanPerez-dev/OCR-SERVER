@@ -63,6 +63,12 @@ export const Company = sequelize.define(
 			notNull: true,
 			notEmpty: true,
 		},
+		contractedImagesMade: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			notNull: true,
+			notEmpty: true,
+		},
 		monthlyAmount: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
