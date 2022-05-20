@@ -13,14 +13,9 @@ import userRoute from './routes/user.route';
 import profileRoute from './routes/profile.route';
 import logRoute from './routes/log.route';
 import scanDataRoute from './routes/scandata.route';
-import { createTypeContacts } from './libs/createContacts';
-import { createProfiles } from './libs/createProfiles';
 
 const app = express();
 const form = multer();
-
-createTypeContacts();
-createProfiles();
 
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);

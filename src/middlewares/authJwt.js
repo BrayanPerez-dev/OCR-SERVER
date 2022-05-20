@@ -36,7 +36,7 @@ export const isSuperAdmin = async (req, res, next) => {
 
 	res.status(403).json({ message: 'Access to this resource is prohibited' });
 };
-export const isAdminCompany = async (req, res, next) => {
+export const isAdmin = async (req, res, next) => {
 	const { userId } = req;
 	const foundUser = await User.findOne({ where: { id: userId } });
 
@@ -52,7 +52,7 @@ export const isAdminCompany = async (req, res, next) => {
 	res.status(403).json({ message: 'Access to this resource is prohibited' });
 };
 
-export const isManagerCompany = async (req, res, next) => {
+export const isEmployee = async (req, res, next) => {
 	const { userId } = req;
 	const foundUser = await User.findOne({ where: { id: userId } });
 
@@ -61,22 +61,6 @@ export const isManagerCompany = async (req, res, next) => {
 	});
 
 	if (foundRoles?.dataValues?.id === 3) {
-		next();
-		return true;
-	}
-
-	res.status(403).json({ message: 'Access to this resource is prohibited' });
-};
-
-export const isEmployeeCompany = async (req, res, next) => {
-	const { userId } = req;
-	const foundUser = await User.findOne({ where: { id: userId } });
-
-	const foundRoles = await Profile.findOne({
-		where: { id: foundUser?.profileId },
-	});
-
-	if (foundRoles?.dataValues?.id === 4) {
 		next();
 		return true;
 	}

@@ -8,12 +8,7 @@ const validateSchemaContact = Joi.object({
 	address: Joi.string().required(),
 	telephone: Joi.string().required(),
 	dui: Joi.string().required(),
-	email: Joi.string()
-		.email({
-			minDomainSegments: 2,
-			tlds: { allow: ['com', 'net'] },
-		})
-		.required(),
+	email: Joi.string().email().required(),
 	companyId: Joi.number().integer(),
 	typecontactId: Joi.number().integer(),
 });
@@ -59,17 +54,6 @@ export async function updateContact(req, res) {
 	try {
 		await Contact.update({ ...req.body }, { where: { id } });
 		res.status(200).json({ message: 'updated successfully' });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
-}
-
-export async function deleteContact(req, res) {
-	const { id } = req.params;
-
-	try {
-		await Contact.destroy({ where: { id } });
-		res.status(200).json({ message: 'deleted successfully' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

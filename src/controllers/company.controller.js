@@ -14,13 +14,13 @@ const validatedSchemaCompany = Joi.object({
 	address: Joi.string().required(),
 	telephone: Joi.string().required(),
 	nrc: Joi.string().required(),
-	turn: Joi.string().required(),
+	giro: Joi.string().required(),
 	nit: Joi.string().required(),
-	email: Joi.string().required(),
+	email: Joi.string().email().required(),
 	contractedImages: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
-	available: Joi.number().integer().required(),
-	paymentDate: Joi.required(),
+	available: Joi.boolean().required(),
+	paymentDate: Joi.date().required(),
 	logo: Joi.string().required(),
 	colorOne: Joi.string()
 		.pattern(/#([a-f0-9]{3}){1,2}\b/i)
@@ -80,16 +80,6 @@ export async function getCompany(req, res) {
 		const company = await Company.findOne({ where: { id } });
 
 		res.status(200).json({ company });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
-}
-
-export async function deleteCompany(req, res) {
-	const { id } = req.params;
-	try {
-		await Company.destroy({ where: { id } });
-		res.status(200).json({ message: 'deleted successfully' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

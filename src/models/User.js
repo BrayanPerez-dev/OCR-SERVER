@@ -51,6 +51,12 @@ export const User = sequelize.define(
 			notNull: true,
 			notEmpty: true,
 		},
+		available: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			notNull: true,
+			notEmpty: true,
+		},
 		dui: {
 			type: DataTypes.STRING,
 			allowNull: false,

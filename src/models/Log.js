@@ -14,29 +14,27 @@ export const Log = sequelize.define(
 		date: {
 			type: DataTypes.DATEONLY,
 			get: function () {
-				return dateFormat(this.getDataValue('paymentDate'));
+				return dateFormat(this.getDataValue('date'));
 			},
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
 		},
 		send: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.TIME,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
 		},
 		receive: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.TIME,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
 		},
-		transfer: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			notNull: true,
-			notEmpty: true,
+		idTransaction: {
+			type: DataTypes.STRING,
+			unique: true,
 		},
 	},
 	{ timestamps: false }

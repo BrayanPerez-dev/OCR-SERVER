@@ -7,18 +7,13 @@ const validatedschemaUser = Joi.object({
 	user: Joi.string().min(2).max(30).required(),
 	telephone: Joi.string().required(),
 	dui: Joi.string().required(),
+	available: Joi.boolean().required(),
 	branchofficeId: Joi.number().integer().required(),
 	profileId: Joi.number().integer().required(),
 	password: Joi.string()
 		.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,12})/)
 		.required(),
-
-	email: Joi.string()
-		.email({
-			minDomainSegments: 2,
-			tlds: { allow: ['com', 'net'] },
-		})
-		.required(),
+	email: Joi.string().email().required(),
 });
 export async function createUser(req, res) {
 	try {
@@ -41,16 +36,6 @@ export async function updateUser(req, res) {
 	try {
 		await User.update({ ...req.body }, { where: { id } });
 		res.status(200).json({ message: 'updated successfully' });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
-}
-
-export async function deleteUser(req, res) {
-	const { id } = req.params;
-	try {
-		await User.destroy({ where: { id } });
-		res.status(200).json({ message: 'deleted successfully' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

@@ -37,7 +37,7 @@ export const Company = sequelize.define(
 			notEmpty: true,
 			unique: true,
 		},
-		turn: {
+		giro: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			notNull: true,
@@ -70,7 +70,7 @@ export const Company = sequelize.define(
 			notEmpty: true,
 		},
 		available: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
