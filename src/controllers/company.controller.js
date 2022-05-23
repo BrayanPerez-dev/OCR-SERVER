@@ -47,7 +47,6 @@ export async function createCompany(req, res) {
 		const findNit = Company.findOne({ where: { nit } });
 		const companys = Company.findAll();
 		const finders = await Promise.all([findName, findNrc, findNit, companys]);
-		req.body.license = finders[3].length + 1;
 		req.body.paymentDate = paymentDate(req.body.paymentDate);
 		if (
 			finders[0]?.dataValues ||

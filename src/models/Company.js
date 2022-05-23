@@ -92,7 +92,8 @@ export const Company = sequelize.define(
 			},
 		},
 		license: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,

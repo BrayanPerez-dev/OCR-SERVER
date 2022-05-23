@@ -74,3 +74,26 @@ export async function getUsers(req, res) {
 		res.status(500).json({ message: error.message });
 	}
 }
+
+export async function updateCredentials(req, res) {
+	const { id } = req.params;
+	try {
+		const foundUser = await User.findOne({ where: { id } });
+		const passwordDatabase = foundUser.password;
+		const matchPassword = bcrypt.compareSync(
+			req.body?.password,
+			passwordDatabase
+		);
+		if (!matchPassword) {
+			return res.status(401).json({
+				message: 'Old Password does not match',
+			});
+		}
+		const cryptPass = bcrypt.hashSync(req.body?.password, 10);
+		req.body.password = cryptPass;
+		await User.update({ ...req.body }, { where: { id } });
+		res.status(200).json({ message: 'updated successfully' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
