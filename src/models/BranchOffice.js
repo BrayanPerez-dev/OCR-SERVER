@@ -35,6 +35,13 @@ export const BranchOffice = sequelize.define(
 			notNull: true,
 			notEmpty: true,
 		},
+		available: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: true,
+			allowNull: false,
+			notNull: true,
+			notEmpty: true,
+		},
 	},
 	{ timestamps: false }
 );

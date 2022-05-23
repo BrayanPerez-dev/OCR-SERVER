@@ -20,7 +20,7 @@ const validatedSchemaCompany = Joi.object({
 	contractedImages: Joi.number().integer().required(),
 	contractedImagesMade: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
-	available: Joi.boolean().required(),
+	available: Joi.boolean(),
 	paymentDate: Joi.date().required(),
 	logo: Joi.string().required(),
 	colorOne: Joi.string()
@@ -66,7 +66,7 @@ export async function createCompany(req, res) {
 	}
 }
 
-export async function getAllCompanys(req, res) {
+export async function getAllCompanies(req, res) {
 	try {
 		const companies = await Company.findAll();
 		res.status(200).json({ companies });
@@ -95,8 +95,18 @@ export async function updateCompany(req, res) {
 		res.status(500).json({ message: error.message });
 	}
 }
-
-export async function getCompanyAllData(req, res) {
+export async function enableCompany(req, res) {
+	const { id } = req.params;
+	const { available } = req.body;
+	try {
+		await Company.update({ available }, { where: { id } });
+		res.status(200).json({ message: 'updated successfully' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
+// brings all the data for each company
+export async function getAllCompanyData(req, res) {
 	const { id } = req.params;
 	try {
 		const foundCompanyBranchOffices = await Company.findAll({
@@ -129,18 +139,6 @@ export async function getCompanyAllData(req, res) {
 			],
 		});
 		res.status(200).json({ foundCompanyBranchOffices });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
-}
-
-export async function getCompanyContacts(req, res) {
-	const { id } = req.params;
-	try {
-		const foundCompanyContacts = await Contact.findAll({
-			where: { companyId: id },
-		});
-		res.status(200).json({ foundCompanyContacts });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

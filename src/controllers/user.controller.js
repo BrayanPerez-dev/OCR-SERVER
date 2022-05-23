@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { User } from '../models/User';
+import bcrypt from 'bcrypt';
 
 const validatedschemaUser = Joi.object({
 	name: Joi.string().required(),
@@ -7,7 +8,7 @@ const validatedschemaUser = Joi.object({
 	user: Joi.string().min(2).max(30).required(),
 	telephone: Joi.string().required(),
 	dui: Joi.string().required(),
-	available: Joi.boolean().required(),
+	available: Joi.boolean(),
 	branchofficeId: Joi.number().integer().required(),
 	profileId: Joi.number().integer().required(),
 	password: Joi.string()
@@ -22,6 +23,9 @@ export async function createUser(req, res) {
 		if (error?.details[0]?.message) {
 			throw new Error(error?.details[0]?.message);
 		}
+		const cryptPass = bcrypt.hashSync(req.body.password, 10);
+		req.body.password = cryptPass;
+
 		const newUser = await User.create({ ...req.body });
 		await newUser.save();
 		res.status(200).json({ newUser });
@@ -41,10 +45,30 @@ export async function updateUser(req, res) {
 	}
 }
 
+export async function enableUser(req, res) {
+	const { id } = req.params;
+	const { available } = req.body;
+	try {
+		await User.update({ available }, { where: { id } });
+		res.status(200).json({ message: 'updated successfully' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
 export async function getUser(req, res) {
 	const { id } = req.params;
 	try {
 		const foundUser = await User.findOne({ where: { id } });
+		res.status(200).json({ foundUser });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
+
+export async function getUsers(req, res) {
+	const { id } = req.params;
+	try {
+		const foundUser = await User.findAll({ where: { branchofficeId: id } });
 		res.status(200).json({ foundUser });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

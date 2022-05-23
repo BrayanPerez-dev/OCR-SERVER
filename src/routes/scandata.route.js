@@ -4,11 +4,12 @@ import {
 	getAllScanData,
 	getScanData,
 } from '../controllers/scandata.controller';
+import { verifyToken } from '../middlewares/authJwt';
 
 const router = Router();
 
-router.post('/', createScanData);
-router.get('/log/data/:id', getAllScanData);
-router.get('/:id', getScanData);
+router.post('/', verifyToken, createScanData);
+router.get('/all/:id', verifyToken, getAllScanData);
+router.get('/:id', verifyToken, getScanData);
 
 export default router;

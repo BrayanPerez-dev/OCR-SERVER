@@ -7,8 +7,9 @@ const validateSchemaBranchOffices = Joi.object({
 	telephone: Joi.string().required(),
 	email: Joi.string().email().required(),
 	companyId: Joi.number().integer(),
+	available: Joi.boolean(),
 });
-export async function createBranchOffices(req, res) {
+export async function createBranchOffice(req, res) {
 	try {
 		const { error } = validateSchemaBranchOffices.validate({ ...req.body });
 		if (error?.details[0]?.message) {
@@ -22,10 +23,12 @@ export async function createBranchOffices(req, res) {
 	}
 }
 
-export async function getBranchOffices(req, res) {
+export async function getBranchOffice(req, res) {
 	const { id } = req.params;
 	try {
-		const branchoffice = await BranchOffice.findOne({ where: { id } });
+		const branchoffice = await BranchOffice.findOne({
+			where: { id },
+		});
 		res.status(200).json({ branchoffice });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -33,18 +36,33 @@ export async function getBranchOffices(req, res) {
 }
 
 export async function getALLBranchOffices(req, res) {
+	const { id } = req.params;
+
 	try {
-		const branchoffices = await BranchOffice.findAll();
+		const branchoffices = await BranchOffice.findAll({
+			where: { companyId: id },
+		});
 		res.status(200).json({ branchoffices });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 }
 
-export async function updateBranchOffices(req, res) {
+export async function updateBranchOffice(req, res) {
 	const { id } = req.params;
 	try {
 		await BranchOffice.update({ ...req.body }, { where: { id } });
+		res.status(200).json({ message: 'updated successfully' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
+
+export async function enableBranch(req, res) {
+	const { id } = req.params;
+	const { available } = req.body;
+	try {
+		await BranchOffice.update({ available }, { where: { id } });
 		res.status(200).json({ message: 'updated successfully' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

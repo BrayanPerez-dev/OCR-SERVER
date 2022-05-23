@@ -5,12 +5,9 @@ const validatedschemaLog = Joi.object({
 	date: Joi.date().required(),
 	send: Joi.date().timestamp().required(),
 	receive: Joi.date().timestamp().required(),
-	idTransaction: Joi.string().required(),
 	userId: Joi.number().integer().required(),
 });
 export async function createLog(req, res) {
-	console.log(req.body);
-
 	try {
 		const { error } = validatedschemaLog.validate({ ...req.body });
 

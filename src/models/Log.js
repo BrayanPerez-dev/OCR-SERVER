@@ -33,7 +33,8 @@ export const Log = sequelize.define(
 			notEmpty: true,
 		},
 		idTransaction: {
-			type: DataTypes.STRING,
+			type: DataTypes.UUID,
+			defaultValue: DataTypes.UUIDV4,
 			unique: true,
 		},
 	},

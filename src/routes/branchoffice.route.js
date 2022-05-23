@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import {
-	createBranchOffices,
-	getBranchOffices,
+	createBranchOffice,
+	getBranchOffice,
 	getALLBranchOffices,
-	updateBranchOffices,
+	updateBranchOffice,
+	enableBranch,
 } from '../controllers/branchoffice.controller';
-
+import { isAdmin, verifyToken } from '../middlewares/authJwt';
 const router = Router();
 
-router.post('/', createBranchOffices);
-router.get('/:id', getBranchOffices);
-router.get('/', getALLBranchOffices);
-router.put('/:id', updateBranchOffices);
+router.post('/', [verifyToken, isAdmin], createBranchOffice);
+router.get('/:id', verifyToken, getBranchOffice);
+router.get('/all/:id', verifyToken, getALLBranchOffices);
+router.put('/:id', [verifyToken, isAdmin], updateBranchOffice);
+router.put('/enable/:id', [verifyToken, isAdmin], enableBranch);
+
 export default router;

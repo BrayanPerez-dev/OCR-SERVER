@@ -41,8 +41,11 @@ export async function getContact(req, res) {
 }
 
 export async function getContacts(req, res) {
+	const { id } = req.params;
 	try {
-		const contact = await Contact.findAll({ include: TypeContact });
+		const contact = await Contact.findAll({
+			where: { companyId: id },
+		});
 		res.status(200).json({ contact });
 	} catch (error) {
 		res.status(500).json({ message: error.message });

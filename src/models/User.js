@@ -53,6 +53,7 @@ export const User = sequelize.define(
 		},
 		available: {
 			type: DataTypes.BOOLEAN,
+			defaultValue: true,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,

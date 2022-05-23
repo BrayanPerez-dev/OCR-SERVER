@@ -77,6 +77,7 @@ export const Company = sequelize.define(
 		},
 		available: {
 			type: DataTypes.BOOLEAN,
+			defaultValue: true,
 			allowNull: false,
 			notNull: true,
 			notEmpty: true,
