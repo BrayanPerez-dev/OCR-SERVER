@@ -41,9 +41,7 @@ export const signUp = async (req, res) => {
 		});
 		const newUser = await User.create({ ...req.body });
 		await newUser.save();
-		res
-			.status(200)
-			.json({ message: 'The user was created successfull', token });
+		res.status(200).json({ message: 'The user was created successfull' });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

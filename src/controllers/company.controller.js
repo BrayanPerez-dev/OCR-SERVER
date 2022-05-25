@@ -1,13 +1,6 @@
 import { Company } from '../models/Company';
 import Joi from 'joi';
-import { BranchOffice } from '../models/BranchOffice';
-import { Contact } from '../models/Contact';
-import { paymentDate } from '../utils/dates';
-import { User } from '../models/User';
-import { Profile } from '../models/Profile';
-import { TypeContact } from '../models/TypeContact';
-import { Log } from '../models/Log';
-import { ScanData } from '../models/ScanData';
+import { dateFormat, paymentDate } from '../utils/dates';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -76,6 +69,7 @@ export async function getAllCompanies(req, res) {
 export async function getCompany(req, res) {
 	const { id } = req.params;
 	try {
+		nextPaymentDate(id);
 		const company = await Company.findOne({ where: { id } });
 
 		res.status(200).json({ company });
@@ -103,41 +97,15 @@ export async function enableCompany(req, res) {
 		res.status(500).json({ message: error.message });
 	}
 }
-// brings all the data for each company
-export async function getAllCompanyData(req, res) {
-	const { id } = req.params;
-	try {
-		const foundCompanyBranchOffices = await Company.findAll({
-			where: { id },
-			include: [
-				{
-					model: BranchOffice,
-					include: [
-						{
-							model: User,
-							attributes: [
-								'id',
-								'user',
-								'name',
-								'lastName',
-								'telephone',
-								'email',
-								'dui',
-								'profileId',
-								'branchofficeId',
-							],
-							include: [
-								{ model: Profile },
-								{ model: Log, include: [ScanData] },
-							],
-						},
-					],
-				},
-				{ model: Contact, include: [TypeContact] },
-			],
-		});
-		res.status(200).json({ foundCompanyBranchOffices });
-	} catch (error) {
-		res.status(500).json({ message: error.message });
+
+async function nextPaymentDate(id) {
+	const company = await Company.findOne({ where: { id } });
+	const paymentDateDB = dateFormat(company.dataValues.paymentDate);
+	const newDate = new Date();
+	const dateNow = dateFormat(newDate);
+
+	if (paymentDateDB === dateNow) {
+		const nextPaymentDate = paymentDate(newDate);
+		Company.update({ paymentDate: nextPaymentDate }, { where: { id } });
 	}
 }
