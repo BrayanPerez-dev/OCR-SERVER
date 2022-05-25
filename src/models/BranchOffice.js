@@ -48,7 +48,20 @@ export const BranchOffice = sequelize.define(
 
 BranchOffice.hasMany(User, {
 	sourceKey: 'id',
-	foreingKey: 'branchofficeKey',
+	foreingKey: {
+		name: 'branchofficeId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 });
 
-User.belongsTo(BranchOffice, { targetId: 'id', foreingKey: 'branchofficeKey' });
+User.belongsTo(BranchOffice, {
+	targetId: 'id',
+	foreingKey: {
+		name: 'branchofficeId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+});

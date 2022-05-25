@@ -80,6 +80,7 @@ export async function updateCredentials(req, res) {
 	try {
 		const foundUser = await User.findOne({ where: { id } });
 		const passwordDatabase = foundUser.password;
+
 		const matchPassword = bcrypt.compareSync(
 			req.body?.password,
 			passwordDatabase
@@ -89,7 +90,7 @@ export async function updateCredentials(req, res) {
 				message: 'Old Password does not match',
 			});
 		}
-		const cryptPass = bcrypt.hashSync(req.body?.password, 10);
+		const cryptPass = bcrypt.hashSync(req.body?.newPassword, 10);
 		req.body.password = cryptPass;
 		await User.update({ ...req.body }, { where: { id } });
 		res.status(200).json({ message: 'updated successfully' });

@@ -46,12 +46,22 @@ export const Contact = sequelize.define(
 	}
 );
 
-TypeContact.hasOne(Contact, {
+TypeContact.hasMany(Contact, {
 	sourceKey: 'id',
-	foreingKey: 'typecontactId',
+	foreingKey: {
+		name: 'usertypecontactId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 });
 
 Contact.belongsTo(TypeContact, {
 	targetKey: 'id',
-	foreingKey: 'typecontactId',
+	foreingKey: {
+		name: 'usertypecontactId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 });

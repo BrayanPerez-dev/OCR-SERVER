@@ -10,11 +10,13 @@ export async function createTypeContact(req, res) {
 		if (error?.details[0]?.message) {
 			throw new Error(error?.details[0]?.message);
 		}
-		const newTypeContact = await TypeContact({ ...req.body });
+
+		const newTypeContact = await new TypeContact({ ...req.body });
+
 		await newTypeContact.save();
 		res.status(200).json({ newTypeContact });
 	} catch (error) {
-		res.status(400).json({ message: error });
+		res.status(400).json({ message: error.message });
 	}
 }
 export async function getAllTypeContact(req, res) {

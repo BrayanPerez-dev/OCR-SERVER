@@ -10,14 +10,12 @@ export const verifyToken = async (req, res, next) => {
 	try {
 		const decoded = jwt.verify(token, config.SECRET);
 		const id = decoded.foundUser.id;
+
 		req.userId = id;
-		console.log(req.userId);
 		const user = await User.findOne({ where: { id } });
-		console.log(user);
 		if (!user) res.status(404).json({ message: 'user not found' });
 		next();
 	} catch (error) {
-		console.log(error);
 		res.status(401).json({ error: error.message });
 	}
 };

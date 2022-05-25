@@ -5,7 +5,10 @@ export function dateFormat(date) {
 }
 
 export function paymentDate(date) {
-	date = moment(date, 'DD/MM/YYYY');
-	const paymentDate = date.clone().add(1, 'month');
-	return paymentDate.format('DD/MM/YYYY');
+	const paymentDate = moment(date).clone().add(1, 'month');
+	return paymentDate;
+}
+
+export function timeFormat(date) {
+	return moment(new Date(date), [moment.ISO_8601, 'HH:mm']).format('h:mm:ss a');
 }

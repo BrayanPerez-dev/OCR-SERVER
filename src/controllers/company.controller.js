@@ -16,12 +16,12 @@ const validatedSchemaCompany = Joi.object({
 	nrc: Joi.string().required(),
 	giro: Joi.string().required(),
 	nit: Joi.string().required(),
+	paymentDate: Joi.date().required(),
 	email: Joi.string().email().required(),
 	contractedImages: Joi.number().integer().required(),
 	contractedImagesMade: Joi.number().integer().required(),
 	monthlyAmount: Joi.number().required(),
 	available: Joi.boolean(),
-	paymentDate: Joi.date().required(),
 	logo: Joi.string().required(),
 	colorOne: Joi.string()
 		.pattern(/#([a-f0-9]{3}){1,2}\b/i)
@@ -53,7 +53,6 @@ export async function createCompany(req, res) {
 			finders[1]?.dataValues ||
 			finders[2]?.dataValues
 		) {
-			console.log('Repeated values');
 			return res.status(500).json({ message: 'Repeated values' });
 		}
 

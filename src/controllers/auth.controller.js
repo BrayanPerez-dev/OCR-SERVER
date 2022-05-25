@@ -12,18 +12,13 @@ const validatedschemaSingup = Joi.object({
 	user: Joi.string().min(2).max(30).required(),
 	telephone: Joi.string().required(),
 	dui: Joi.string().required(),
+	available: Joi.boolean(),
 	branchofficeId: Joi.number().integer().required(),
 	profileId: Joi.number().integer().required(),
 	password: Joi.string()
 		.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,12})/)
 		.required(),
-
-	email: Joi.string()
-		.email({
-			minDomainSegments: 2,
-			tlds: { allow: ['com', 'net'] },
-		})
-		.required(),
+	email: Joi.string().email().required(),
 });
 
 const validatedschemaSinging = Joi.object({
@@ -50,7 +45,6 @@ export const signUp = async (req, res) => {
 			.status(200)
 			.json({ message: 'The user was created successfull', token });
 	} catch (error) {
-		console.log(error.message);
 		res.status(400).json({ error: error.message });
 	}
 };
@@ -74,9 +68,8 @@ export const signIn = async (req, res) => {
 			});
 		}
 		const { branchofficeId } = foundUser;
-
 		const foundBranch = await BranchOffice.findOne({
-			where: { branchofficeId },
+			where: { id: branchofficeId },
 		});
 
 		if (foundBranch.available === false) {
@@ -86,7 +79,7 @@ export const signIn = async (req, res) => {
 		}
 
 		const { companyId } = foundBranch;
-		const foundCompany = await Company.findOne({ where: { companyId } });
+		const foundCompany = await Company.findOne({ where: { id: companyId } });
 
 		if (foundCompany.available === false) {
 			return res.status(403).json({
@@ -118,7 +111,6 @@ export const signIn = async (req, res) => {
 		};
 		res.status(200).json({ user, token });
 	} catch (error) {
-		console.log(error.message);
 		res.status(400).json({ error: error.message });
 	}
 };

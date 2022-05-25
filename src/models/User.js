@@ -68,16 +68,42 @@ export const User = sequelize.define(
 	{ timestamps: false }
 );
 
-Profile.hasOne(User, {
+Profile.hasMany(User, {
 	sourceKey: 'id',
-	foreingKey: 'profileId',
+	foreingKey: {
+		name: 'profileId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 });
 
-User.belongsTo(Profile, { targetKey: 'id', foreingKey: 'profileId' });
+User.belongsTo(Profile, {
+	targetKey: 'id',
+	foreingKey: {
+		name: 'profileId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+});
 
 User.hasMany(Log, {
 	sourceKey: 'id',
-	foreingKey: 'userId',
+	foreingKey: {
+		name: 'userId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 });
 
-Log.belongsTo(User, { targetKey: 'id', foreingKey: 'userId' });
+Log.belongsTo(User, {
+	targetKey: 'id',
+	foreingKey: {
+		name: 'userId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+});

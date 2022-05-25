@@ -41,6 +41,24 @@ export const Log = sequelize.define(
 	{ timestamps: false }
 );
 
-Log.hasMany(ScanData, { sourceKey: 'id', foreingKey: 'logId' });
+Log.hasOne(ScanData, {
+	sourceKey: 'id',
+	foreignKey: {
+		name: 'logId',
+		unique: true,
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+});
 
-ScanData.belongsTo(Log, { targetKey: 'id', foreingKey: 'logId' });
+ScanData.belongsTo(Log, {
+	targetKey: 'id',
+	foreingKey: {
+		name: 'logId',
+		unique: true,
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+});

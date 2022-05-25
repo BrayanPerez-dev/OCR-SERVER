@@ -133,15 +133,41 @@ export const Company = sequelize.define(
 );
 
 Company.hasMany(BranchOffice, {
-	foreignKey: 'companyId',
+	foreignKey: {
+		name: 'companyId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 	sourceKey: 'id',
 });
 
-BranchOffice.belongsTo(Company, { foreignKey: 'companyId', targetId: 'id' });
+BranchOffice.belongsTo(Company, {
+	foreignKey: {
+		name: 'companyId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+	targetId: 'id',
+});
 
 Company.hasMany(Contact, {
-	foreignKey: 'companyId',
+	foreignKey: {
+		name: 'companyId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
 	sourceKey: 'id',
 });
 
-Contact.belongsTo(Company, { foreignKey: 'companyId', targetId: 'id' });
+Contact.belongsTo(Company, {
+	foreignKey: {
+		name: 'companyId',
+		allowNull: false,
+		notNull: true,
+		notEmpty: true,
+	},
+	targetId: 'id',
+});
