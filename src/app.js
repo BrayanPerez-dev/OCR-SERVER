@@ -4,19 +4,21 @@ import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
 import multer from 'multer';
-import authRoute from './routes/auth.route';
-import companyRoute from './routes/company.route';
-import branchOfficeRoute from './routes/branchoffice.route';
-import contactRoute from './routes/contact.route';
-import typeContactRoute from './routes/typecontact.route';
-import userRoute from './routes/user.route';
-import profileRoute from './routes/profile.route';
-import logRoute from './routes/log.route';
-import scanDataRoute from './routes/scandata.route';
+import indexRoute from './routes/index.route';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
+import path from 'path';
 
 const app = express();
 const form = multer();
-
+const swaggerSpec = {
+	definition: {
+		openapi: '3.0.0',
+		info: { title: 'OCR API', version: '2.0.0' },
+		servers: [{ url: 'http://localhost:4000' }],
+	},
+	apis: [`${path.join(__dirname, './routes/*.js')}`],
+};
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);
 app.use(cors());
@@ -26,6 +28,14 @@ app.use(bodyParser.json());
 app.use(form.array());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/api', indexRoute);
+
+app.use(
+	'/api-doc',
+	swaggerUI.serve,
+	swaggerUI.setup(swaggerJsDoc(swaggerSpec))
+);
+
 app.get('/', (req, res) => {
 	res.json({
 		message: 'Welcome to the server scanner intellityc',
@@ -34,15 +44,5 @@ app.get('/', (req, res) => {
 		author: 'technosal',
 	});
 });
-
-app.use('/api/auth', authRoute);
-app.use('/api/company', companyRoute);
-app.use('/api/branchoffice', branchOfficeRoute);
-app.use('/api/contact', contactRoute);
-app.use('/api/type-contact', typeContactRoute);
-app.use('/api/user', userRoute);
-app.use('/api/log', logRoute);
-app.use('/api/scandata', scanDataRoute);
-app.use('/api/profile', profileRoute);
 
 export default app;

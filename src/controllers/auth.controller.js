@@ -27,6 +27,7 @@ const validatedschemaSinging = Joi.object({
 		.required(),
 	email: Joi.string().email().required(),
 });
+
 export const signUp = async (req, res) => {
 	try {
 		const { error } = validatedschemaSingup.validate({ ...req.body });
@@ -36,9 +37,7 @@ export const signUp = async (req, res) => {
 		}
 		const cryptPass = bcrypt.hashSync(req.body.password, 10);
 		req.body.password = cryptPass;
-		const token = jwt.sign({ ...req.body }, config.SECRET, {
-			expiresIn: config.EXPIRATION,
-		});
+
 		const newUser = await User.create({ ...req.body });
 		await newUser.save();
 		res.status(200).json({ message: 'The user was created successfull' });

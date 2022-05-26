@@ -1,6 +1,6 @@
-REST API application
+API REST
 
-Install
+Install node modules
 
 npm install
 
