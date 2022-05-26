@@ -69,7 +69,6 @@ export async function getAllCompanies(req, res) {
 export async function getCompany(req, res) {
 	const { id } = req.params;
 	try {
-		nextPaymentDate(id);
 		const company = await Company.findOne({ where: { id } });
 
 		res.status(200).json({ company });
@@ -98,14 +97,22 @@ export async function enableCompany(req, res) {
 	}
 }
 
-async function nextPaymentDate(id) {
-	const company = await Company.findOne({ where: { id } });
-	const paymentDateDB = dateFormat(company.dataValues.paymentDate);
-	const newDate = new Date();
-	const dateNow = dateFormat(newDate);
+export async function nextPaymentDate(req, res) {
+	const { id } = req.params;
 
-	if (paymentDateDB === dateNow) {
-		const nextPaymentDate = paymentDate(newDate);
-		Company.update({ paymentDate: nextPaymentDate }, { where: { id } });
+	try {
+		const company = await Company.findOne({ where: { id } });
+		const paymentDateDB = dateFormat(company.dataValues.paymentDate);
+		const newDate = new Date();
+		const dateNow = dateFormat(newDate);
+		console.log(paymentDateDB === dateNow, paymentDateDB, dateNow);
+		if (paymentDateDB === dateNow) {
+			const nextPaymentDate = paymentDate(newDate);
+			Company.update({ paymentDate: nextPaymentDate }, { where: { id } });
+			return res.status(204).json({});
+		}
+		res.status(304).json({ message: 'Not modified' });
+	} catch (error) {
+		res.status(400).json({ message: 'Payment date updated' });
 	}
 }
