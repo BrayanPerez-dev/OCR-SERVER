@@ -5,8 +5,9 @@ import './models/Profile';
 import './models/TypeContact';
 
 async function main() {
-	await sequelize.sync({ force: true });
+	await sequelize.sync({ force: false });
 	app.listen(app.get('port'));
 	console.log('Server on port 4000');
 }
+
 main();
