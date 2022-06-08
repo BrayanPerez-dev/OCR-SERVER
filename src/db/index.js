@@ -6,7 +6,6 @@ const proConfing = new Sequelize(config.DB_URL, {
 	protocol: config.PROTOCOL,
 	dialectOptions: {
 		ssl: {
-			require: true,
 			rejectUnauthorized: false,
 		},
 	},
@@ -28,6 +27,7 @@ const devConfig = new Sequelize(
 		logging: false,
 	}
 );
+console.log(config);
 const setUp = config.NODE_ENV === 'production' ? proConfing : devConfig;
 
 export const sequelize = setUp;
