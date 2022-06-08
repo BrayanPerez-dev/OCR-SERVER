@@ -1,5 +1,5 @@
 import { Profile } from '../models/Profile';
-import Joi from 'Joi';
+import Joi from 'joi';
 
 const profileSchema = Joi.object({
 	description: Joi.string().required(),
