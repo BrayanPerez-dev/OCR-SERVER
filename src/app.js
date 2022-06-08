@@ -11,6 +11,7 @@ import path from 'path';
 
 const app = express();
 const form = multer();
+
 const swaggerSpec = {
 	definition: {
 		openapi: '3.0.0',
@@ -19,6 +20,7 @@ const swaggerSpec = {
 	},
 	apis: [`${path.join(__dirname, './routes/*.js')}`],
 };
+
 app.set('port', process.env.PORT || 4000);
 app.set('json spaces', 4);
 app.use(cors());
