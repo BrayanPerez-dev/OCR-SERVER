@@ -1,5 +1,5 @@
 import { ScanData } from '../models/ScanData';
-import Joi from 'Joi';
+import Joi from 'joi';
 
 const validatedschemaScanData = Joi.object({
 	date: Joi.date().required(),

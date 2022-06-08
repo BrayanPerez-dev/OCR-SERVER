@@ -1,5 +1,5 @@
 import { Log } from '../models/Log';
-import Joi from 'Joi';
+import Joi from 'joi';
 import { timeFormat } from '../utils/dates';
 const validatedschemaLog = Joi.object({
 	date: Joi.date().required(),

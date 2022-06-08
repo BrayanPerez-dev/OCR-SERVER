@@ -1,6 +1,6 @@
 import { Company } from '../models/Company';
 import Joi from 'joi';
-import { checkDate, dateFormat, paymentDate } from '../utils/dates';
+import { dateFormat, paymentDate } from '../utils/dates';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
