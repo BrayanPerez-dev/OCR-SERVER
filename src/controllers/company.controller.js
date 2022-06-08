@@ -1,6 +1,6 @@
 import { Company } from '../models/Company';
 import Joi from 'joi';
-import { dateFormat, paymentDate } from '../utils/dates';
+import { checkDate, dateFormat, paymentDate } from '../utils/dates';
 
 const validatedSchemaCompany = Joi.object({
 	name: Joi.string().required(),
@@ -102,15 +102,21 @@ export async function nextPaymentDate(req, res) {
 
 	try {
 		const company = await Company.findOne({ where: { id } });
-		const paymentDateDB = dateFormat(company.dataValues.paymentDate);
+		const paymentDateFromDB = dateFormat(company.dataValues.paymentDate);
 		const newDate = new Date();
 		const dateNow = dateFormat(newDate);
-		console.log(paymentDateDB === dateNow, paymentDateDB, dateNow);
-		if (paymentDateDB === dateNow) {
-			const nextPaymentDate = paymentDate(newDate);
+
+		const nextPaymentDate = paymentDate(paymentDateFromDB);
+		console.log(
+			paymentDateFromDB,
+			dateNow,
+			Date.parse(dateNow) > Date.parse(paymentDateFromDB)
+		);
+		if (Date.parse(dateNow) > Date.parse(paymentDateFromDB)) {
 			Company.update({ paymentDate: nextPaymentDate }, { where: { id } });
 			return res.status(204).json({});
 		}
+
 		res.status(304).json({ message: 'Not modified' });
 	} catch (error) {
 		res.status(400).json({ message: 'Payment date updated' });

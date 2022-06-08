@@ -1,33 +1,18 @@
-// import pg from 'pg';
 import config from '../config';
 import Sequelize from 'sequelize';
 
-/* const { Pool } = pg;
-
-const devConfig = {
-	user: config.DB_USER,
-	password: config.DB_PASS,
-	host: config.DB_HOST,
-	database: config.DB_NAME,
-	port: config.DB_PORT,
-};
-
-const proConfing = {
-	connectionString: process.env.DB_URL,
-	ssl: {
-		rejectUnauthorized: false,
+const proConfing = new Sequelize(config.DB_URL, {
+	dialect: config.DIALECT,
+	protocol: config.PROTOCOL,
+	dialectOptions: {
+		ssl: {
+			require: true,
+			rejectUnauthorized: false,
+		},
 	},
-};
+});
 
-const pool = new Pool(
-	config.NODE_ENV === 'production' ? proConfing : devConfig
-); 
-
-export default pool;
-
-*/
-
-export const sequelize = new Sequelize(
+const devConfig = new Sequelize(
 	config.DB_NAME,
 	config.DB_USER,
 	config.DB_PASS,
@@ -43,3 +28,6 @@ export const sequelize = new Sequelize(
 		logging: false,
 	}
 );
+const setUp = config.NODE_ENV === 'production' ? proConfing : devConfig;
+
+export const sequelize = setUp;
