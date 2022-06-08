@@ -27,7 +27,7 @@ const devConfig = new Sequelize(
 		logging: false,
 	}
 );
-console.log(config);
+
 const setUp = config.NODE_ENV === 'production' ? proConfing : devConfig;
 
 export const sequelize = setUp;
