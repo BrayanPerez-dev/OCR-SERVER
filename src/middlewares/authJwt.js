@@ -13,7 +13,7 @@ export const verifyToken = async (req, res, next) => {
 
 		req.userId = id;
 		const user = await User.findOne({ where: { id } });
-		if (!user) res.status(404).json({ message: 'user not found' });
+		if (!user) return res.status(404).json({ message: 'user not found' });
 		next();
 	} catch (error) {
 		res.status(401).json({ error: error.message });
@@ -27,12 +27,13 @@ export const isSuperAdmin = async (req, res, next) => {
 		where: { id: foundUser?.profileId },
 	});
 
-	if (foundRoles?.dataValues?.id === 1) {
-		next();
-		return true;
+	if (foundRoles?.dataValues?.id !== 1) {
+		return res
+			.status(403)
+			.json({ message: 'Access to this resource is prohibited' });
 	}
 
-	res.status(403).json({ message: 'Access to this resource is prohibited' });
+	next();
 };
 export const isAdmin = async (req, res, next) => {
 	const { userId } = req;
@@ -42,12 +43,11 @@ export const isAdmin = async (req, res, next) => {
 		where: { id: foundUser?.profileId },
 	});
 
-	if (foundRoles?.dataValues?.id === 2) {
-		next();
+	if (foundRoles?.dataValues?.id !== 2) {
+		res.status(403).json({ message: 'Access to this resource is prohibited' });
 		return true;
 	}
-
-	res.status(403).json({ message: 'Access to this resource is prohibited' });
+	next();
 };
 
 export const isEmployee = async (req, res, next) => {
@@ -58,10 +58,10 @@ export const isEmployee = async (req, res, next) => {
 		where: { id: foundUser?.profileId },
 	});
 
-	if (foundRoles?.dataValues?.id === 3) {
-		next();
-		return true;
+	if (foundRoles?.dataValues?.id !== 3) {
+		return res
+			.status(403)
+			.json({ message: 'Access to this resource is prohibited' });
 	}
-
-	res.status(403).json({ message: 'Access to this resource is prohibited' });
+	next();
 };
